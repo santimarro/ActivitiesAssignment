@@ -1,5 +1,6 @@
 package famaf.unc.edu.ar.activitiesassignment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.widget.TextView;
 
 public class NewsActivity extends AppCompatActivity {
+
+    static final int LOGGIN_KEY = 1;  // The request code
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +38,30 @@ public class NewsActivity extends AppCompatActivity {
         if (id == R.id.action_sign_in) {
             NewsActivityFragment newsfragment = (NewsActivityFragment)
                     getSupportFragmentManager().findFragmentById(R.id.news_activity_fragment_id);
-            TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
-            textView.setText("User XXXX logged in");
+            Intent intentLogin = new Intent(NewsActivity.this, LoginActivity.class);
+            startActivityForResult(intentLogin, LOGGIN_KEY);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == LOGGIN_KEY) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                if (data != null) {
+                    String user = data.getStringExtra("email");
+                    TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
+                    textView.setText("User " + user + " logged in");
+                    // The user picked a contact.
+                    // The Intent's data Uri identifies which contact was selected.
+
+                    // Do something with the contact here (bigger example below)
+                }
+            }
+        }
     }
 }
