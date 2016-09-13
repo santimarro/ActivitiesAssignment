@@ -1,6 +1,7 @@
 package famaf.unc.edu.ar.activitiesassignment;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -54,8 +55,12 @@ public class NewsActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 if (data != null) {
                     String user = data.getStringExtra("email");
+                    Resources res = getResources();
+                    String log_message = String.format(res.getString(R.string.login_message), user);
+
+
                     TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
-                    textView.setText("User " + user + " logged in");
+                    textView.setText(log_message);
                     // The user picked a contact.
                     // The Intent's data Uri identifies which contact was selected.
 
