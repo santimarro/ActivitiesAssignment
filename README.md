@@ -1,4 +1,4 @@
-# Activities Assignment | Android Reddit Reader - Step 1
+# LayoutAssignment | Android Reddit Reader - Step 2
 
 ## Contexto
 
@@ -6,13 +6,17 @@ El presente curso ha sido diseñado por [Diego Mercado](https://github.com/merca
 
 ## Objetivos
 
-* Conocer la comunicación entre Actividades y su ciclo de vida
+* Conocer los principios básicos de Layouts, View y ViewGroups en Android
+* Modificar y agregar recursos gráficos y de texto a la aplicación 
 
 ## Enunciado
 
-* Descargar el proyecto desde https://github.com/mercadodiego/ActivitiesAssignment
-* En la acción del Sign inLogin invocar LoginActivity
-* Una vez finalizado, debera mostrar el nombre del usuario logueado en pantalla
+1. Descargar el proyecto desde https://github.com/mercadodiego/LayoutAssignment
+2. Todos los textos deben aparecer tanto en inglés como en castellano
+3. Cambiar el nombre de la aplicación para que aparezca como "Reddit Reader" en inglés y "Lector de Reddit" en castellano
+4. Cambiar el ícono de la aplicación por el de ./images/reddit_icon.png 
+5. Cambiar el nombre de paquete de ar.edu.unc.famaf.activitiesassignment a ar.edu.unc.famaf.redditreader
+6. En la vista principal debe mostrarse una vista igual a ./images/screenshot1.jpg ![Alt text](/images/screenshot1.jpg?raw=true "captura de imagen") 
 
 ## Condiciones de entrega
 
