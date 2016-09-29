@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ActivitiesAssignment</string>
+    <string name="app_name">Reddit Reader</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -16,6 +16,8 @@
     </string>
 
     <string name="login_message">User %s logged in</string>
+
+    <string name="loreipsum_message">Lore Ipsum dolor sit amet, consectetur adipiscing elit. Donec</string>
 
     <string name="title_activity_news">"Activity News"
     </string>
