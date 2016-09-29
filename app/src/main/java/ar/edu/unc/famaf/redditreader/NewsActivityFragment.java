@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -17,6 +20,12 @@ public class NewsActivityFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_news, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_news, container, false);
+        List<PostModel> lst = Backend.getInstance().getTopPosts();
+        ListView lv = (ListView) rootView.findViewById(R.id.postLV);
+        PostAdapter adapter = new PostAdapter(getContext(), R.layout.post_row, lst);
+        lv.setAdapter(adapter);
+
+        return rootView;
     }
 }

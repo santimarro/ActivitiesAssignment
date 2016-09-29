@@ -10,91 +10,10 @@
     tools:context="ar.edu.unc.famaf.redditreader.NewsActivityFragment"
     tools:showIn="@layout/activity_news">
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/postLV">
 
-    <LinearLayout
-        android:layout_width="193dp"
-        android:layout_height="130dp"
-        android:id="@+id/celdas"
-        android:orientation="vertical"
-        android:layout_alignLeft="@+id/loginStatusTextView"
-        android:layout_alignStart="@+id/loginStatusTextView">
-
-
-        <RelativeLayout
-            android:layout_width="193dp"
-            android:layout_height="match_parent"
-            android:id="@+id/texto_celda"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/subreddit"
-                android:text="r/todayilearned"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/horas"
-                android:paddingLeft="@dimen/activity_vertical_margin"
-                android:layout_toRightOf="@id/subreddit"
-                android:text="@string/hours"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/lore_ipsum"
-                android:layout_below="@id/subreddit"
-                android:text="@string/loreipsum_message"
-                android:textSize="18dp"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/comentario_globo"
-                android:layout_below="@id/lore_ipsum"
-                android:background="@android:drawable/sym_action_chat" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/cantidad_comentarios"
-                android:layout_below="@id/lore_ipsum"
-                android:layout_toRightOf="@id/comentario_globo"
-                android:paddingTop="10dp"
-                android:paddingLeft="@dimen/activity_vertical_margin"
-                android:text="@string/comments"/>
-
-
-        </RelativeLayout>
-
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No user logged yet"
-        android:id="@+id/loginStatusTextView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:layout_alignBottom="@+id/celdas"
-        android:layout_toLeftOf="@+id/celdas"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@mipmap/ic_launcher" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView2"
-        android:src="@android:drawable/ic_media_play"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="44dp" />
-
+    </ListView>
 </RelativeLayout>

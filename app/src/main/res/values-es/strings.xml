@@ -13,6 +13,6 @@
     <string name="prompt_email">Correo electronico</string>
     <string name="prompt_password">Contraseña (opcional)</string>
     <string name="title_activity_news">Actividad de Noticias</string>
-    <string name="hours">Hace 4h</string>
-    <string name="comments">2048 comentarios</string>
+    <string name="hours">Hace %s</string>
+    <string name="comments">% comentarios</string>
 </resources>

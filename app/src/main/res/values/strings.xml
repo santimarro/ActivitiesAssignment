@@ -17,9 +17,10 @@
 
     <string name="login_message">User %s logged in</string>
 
-    <string name="loreipsum_message">Lore Ipsum dolor sit amet, consectetur adipiscing elit. Donec</string>
-    <string name="hours">"4h ago"</string>
-    <string name="comments">"2048 comments"</string>
+    <string name="content">%s</string>
+    <string name="hours">"%s ago"</string>
+    <string name="comments">"%d comments"</string>
+    <string name="subreddit">"%s"</string>
 
 
     <string name="title_activity_news">"Reddit Reader"</string>
