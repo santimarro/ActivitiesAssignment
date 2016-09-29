@@ -37,7 +37,7 @@
                 android:id="@+id/horas"
                 android:paddingLeft="@dimen/activity_vertical_margin"
                 android:layout_toRightOf="@id/subreddit"
-                android:text="Hace 4 hs"/>
+                android:text="@string/hours"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                 android:layout_toRightOf="@id/comentario_globo"
                 android:paddingTop="10dp"
                 android:paddingLeft="@dimen/activity_vertical_margin"
-                android:text="2048 comentarios"/>
+                android:text="@string/comments"/>
 
 
         </RelativeLayout>

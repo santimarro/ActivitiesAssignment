@@ -18,6 +18,9 @@
     <string name="login_message">User %s logged in</string>
 
     <string name="loreipsum_message">Lore Ipsum dolor sit amet, consectetur adipiscing elit. Donec</string>
+    <string name="hours">"4h ago"</string>
+    <string name="comments">"2048 comments"</string>
+
 
     <string name="title_activity_news">"Activity News"
     </string>
