@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+<<<<<<< HEAD
     tools:context="ar.edu.unc.famaf.redditreader.NewsActivity">
+=======
+    tools:context="famaf.unc.edu.ar.activitiesassignment.ar.edu.unc.famaf.redditreader.NewsActivity">
+>>>>>>> 12ec262df28bfa6e133f41de9ad11f9d890deccc
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

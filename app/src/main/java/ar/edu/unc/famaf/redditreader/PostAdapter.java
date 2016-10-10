@@ -17,10 +17,20 @@ import java.util.prefs.BackingStoreException;
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> mListPostModel;
 
+    static class ViewHolder {
+        TextView titulo;
+        TextView subreddit;
+        TextView comments;
+        TextView date;
+
+        int position;
+    }
+
 
     public PostAdapter(Context context, int resource, List<PostModel> lst) {
         super(context, resource);
         mListPostModel = lst;
+
     }
 
     @Override
@@ -40,22 +50,26 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
         if(convertView == null) {
             LayoutInflater vi =  (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = vi.inflate(R.layout.post_row, parent);
+            convertView = vi.inflate(R.layout.post_row, parent, false);
+            holder = new ViewHolder();
+            holder.titulo = (TextView) convertView.findViewById(titulo);
+            holder.subreddit = (TextView) convertView.findViewById(R.id.subreddit);
+            holder.comments = (TextView) convertView.findViewById(R.id.cantidad_comentarios);
+            holder.date = (TextView) convertView.findViewById(R.id.horas);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
         PostModel p = mListPostModel.get(position);
-        TextView titulo = (TextView) convertView.findViewById(R.id.titulo);
-        TextView subreddit = (TextView) convertView.findViewById(R.id.subreddit);
-        TextView comments = (TextView) convertView.findViewById(R.id.cantidad_comentarios);
-        TextView date = (TextView) convertView.findViewById(R.id.horas);
 
-
-        titulo.setText(p.getmTitle());
-        subreddit.setText(p.getmSubreddit());
-        comments.setText(p.getmComments());
-        date.setText(p.getmPostDate());
+        holder.titulo.setText(p.getmTitle());
+        holder.subreddit.setText(p.getmSubreddit());
+        holder.comments.setText(p.getmComments());
+        holder.date.setText(p.getmPostDate());
 
         return convertView;
     }
@@ -65,4 +79,3 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         return mListPostModel.isEmpty();
     }
 }
-

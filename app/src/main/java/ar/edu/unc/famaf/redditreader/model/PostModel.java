@@ -1,6 +1,6 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.model;
 
-import android.media.Image;
+
 
 /**
  * Created by smarro on 9/29/16.
@@ -72,3 +72,4 @@ public class PostModel {
         this.mContent = mContent;
     }
 }
+

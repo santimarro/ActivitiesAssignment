@@ -2,7 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment"
+<<<<<<< HEAD
     android:name="ar.edu.unc.famaf.redditreader.NewsActivityFragment"
+=======
+    android:name="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment"
+>>>>>>> 12ec262df28bfa6e133f41de9ad11f9d890deccc
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"

@@ -1,11 +1,9 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.backend;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by smarro on 9/29/16.
- */
+import ar.edu.unc.famaf.redditreader.model.PostModel;
+
 public class Backend {
     private static Backend ourInstance = new Backend();
 
@@ -31,4 +29,5 @@ public class Backend {
     public List<PostModel> getTopPosts() {
         return mListPostModel;
     }
+
 }
