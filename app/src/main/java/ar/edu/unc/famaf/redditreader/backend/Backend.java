@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.model.PostModel;
@@ -15,14 +16,20 @@ public class Backend {
     private Backend() {
         mListPostModel = new ArrayList<>();
 
-        PostModel p1 = new PostModel("pepe loro","pepito se comio un lorito","todayilearned", 1000, "4 hs", "www.goog/algo.jpg");
+        PostModel p1 = new PostModel("pepe loro","ophionn","todayilearned", 1000, "4 hs", "www.goog/algo.jpg");
         mListPostModel.add(p1);
 
-        PostModel p2 = new PostModel("lala","lelelel","r/todayilearned",56, "1 hs", "www.goog/algo.jpg");
+        PostModel p2 = new PostModel("lala","kenny","r/todayilearned",56, "1 hs", "www.goog/algo.jpg");
         mListPostModel.add(p2);
 
 
-        PostModel p3 = new PostModel("lololo","asdpiasndsaid","r/radiohead", 23, "1 hs", "www.goog/algo.jpg");
+        PostModel p3 = new PostModel("lololo","mark","r/radiohead", 23, "1 hs", "www.goog/algo.jpg");
+        mListPostModel.add(p3);
+
+        PostModel p4 = new PostModel("lololo","john","r/radiohead", 23, "1 hs", "www.goog/algo.jpg");
+        mListPostModel.add(p3);
+
+        PostModel p5 = new PostModel("lololo","turk","r/radiohead", 23, "1 hs", "www.goog/algo.jpg");
         mListPostModel.add(p3);
     }
 
