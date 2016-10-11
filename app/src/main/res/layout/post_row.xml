@@ -10,18 +10,19 @@ android:paddingTop="@dimen/activity_vertical_margin"
 tools:context="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment">
 
 <RelativeLayout
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:id="@+id/texto_celda"
     android:orientation="vertical"
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
     android:layout_width="200dp"
-    android:layout_toRightOf="@+id/imageView"
-    android:layout_toEndOf="@+id/imageView">
+    android:layout_toRightOf="@+id/thumbnail"
+    android:layout_toEndOf="@+id/thumbnail">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_vertical_margin"
         android:id="@+id/subreddit"
         android:text="r/todayilearned" />
 
@@ -29,30 +30,21 @@ tools:context="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/comentario_globo"
-        android:layout_below="@id/titulo1"
+        android:layout_below="@id/title"
         android:background="@android:drawable/sym_action_chat" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/cantidad_comentarios"
-        android:layout_toRightOf="@id/comentario_globo"
-        android:paddingTop="10dp"
-        android:layout_below="@id/titulo1"
-        android:paddingLeft="@dimen/activity_vertical_margin"
-        android:text="4050" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/titulo1"
         android:textSize="18sp"
-        android:text="Titulos de ejemplo para llenar espacio"
-        android:layout_below="@+id/subreddit"
+        android:id="@+id/title"
+        android:layout_below="@id/subreddit"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:text="Titulo de ejemplo para rellenar"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
     <TextView
         android:text="by Ophionn"
         android:layout_width="wrap_content"
@@ -74,6 +66,18 @@ tools:context="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment">
         android:layout_toLeftOf="@+id/autor"
         android:layout_toStartOf="@+id/autor" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/cantidad_comentarios"
+        android:paddingTop="10dp"
+        android:paddingLeft="@dimen/activity_vertical_margin"
+        android:text="4050"
+        android:layout_below="@+id/title"
+        android:layout_toRightOf="@+id/comentario_globo"
+        android:layout_toEndOf="@+id/comentario_globo"
+        android:layout_alignBottom="@+id/comentario_globo" />
+
 
 </RelativeLayout>
 
@@ -84,16 +88,7 @@ tools:context="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment">
     android:layout_centerVertical="true"
     android:layout_centerHorizontal="true" />
 
-<ImageView
-    android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:id="@+id/imageView"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:src="@mipmap/ic_launcher"
-    android:layout_alignParentTop="true" />
-
-<ImageView
+    <ImageView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/imageView2"
@@ -101,5 +96,14 @@ tools:context="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment">
     android:layout_alignParentRight="true"
     android:layout_alignParentEnd="true"
     android:layout_marginTop="44dp" />
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/thumbnail"
+        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

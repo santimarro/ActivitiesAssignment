@@ -13,8 +13,10 @@ public class PostModel {
     private String mSubreddit;
     private int mComments;
     private String mPostDate;
+    private int mImage;
 
-    public PostModel(String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage) {
+
+    public PostModel(String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, int mImage) {
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
         this.mSubreddit = mSubreddit;
@@ -31,13 +33,12 @@ public class PostModel {
         this.mTitle = mTitle;
     }
 
-    private String mImage;
 
-    public String getmImage() {
+    public int getmImage() {
         return mImage;
     }
 
-    public void setmImage(String mImage) {
+    public void setmImage(int mImage) {
         this.mImage = mImage;
     }
 
