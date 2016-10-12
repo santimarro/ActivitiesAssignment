@@ -1,6 +1,8 @@
 package ar.edu.unc.famaf.redditreader.model;
 
 
+import java.net.URL;
+
 import static android.R.attr.thumbnail;
 
 /**
@@ -13,10 +15,10 @@ public class PostModel {
     private String mSubreddit;
     private int mComments;
     private String mPostDate;
-    private int mImage;
+    private String mImage;
 
 
-    public PostModel(String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, int mImage) {
+    public PostModel(String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage) {
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
         this.mSubreddit = mSubreddit;
@@ -34,11 +36,11 @@ public class PostModel {
     }
 
 
-    public int getmImage() {
+    public String getmImage() {
         return mImage;
     }
 
-    public void setmImage(int mImage) {
+    public void setmImage(String mImage) {
         this.mImage = mImage;
     }
 

@@ -105,5 +105,9 @@ tools:context="ar.edu.unc.famaf.redditreader.ui.NewsActivityFragment">
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <ProgressBar
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/progress_bar"/>
 
 </RelativeLayout>
