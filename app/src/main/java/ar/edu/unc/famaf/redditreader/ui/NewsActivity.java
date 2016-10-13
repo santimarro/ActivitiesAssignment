@@ -56,11 +56,11 @@ public class NewsActivity extends AppCompatActivity {
                 if (data != null) {
                     String user = data.getStringExtra("email");
                     Resources res = getResources();
-                    String log_message = String.format(res.getString(R.string.login_message), user);
+                    //String log_message = String.format(res.getString(R.string.login_message), user);
 
 
-                    TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
-                    textView.setText(log_message);
+                    //TextView textView = (TextView) findViewById(R.id.loginStatusTextView);
+                    //textView.setText(log_message);
                     // The user picked a contact.
                     // The Intent's data Uri identifies which contact was selected.
 

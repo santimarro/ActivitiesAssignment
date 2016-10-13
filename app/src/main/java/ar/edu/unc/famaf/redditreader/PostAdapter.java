@@ -72,10 +72,6 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             return bitmap;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-            mProgressBar.setProgress(progress[0]);
-        }
-
         @Override
         protected void onPostExecute(Bitmap result) {
             System.out.println("onPostExecute");
@@ -114,6 +110,9 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         if(convertView == null) {
             LayoutInflater vi =  (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = vi.inflate(R.layout.post_row, parent, false);
+
+        }
+        if(convertView.getTag() == null) {
             holder = new ViewHolder();
             holder.titulo = (TextView) convertView.findViewById(R.id.title);
             holder.subreddit = (TextView) convertView.findViewById(R.id.subreddit);
@@ -123,6 +122,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
             holder.imagen = (ImageView) convertView.findViewById(R.id.thumbnail);
             holder.progress = (ProgressBar) convertView.findViewById(R.id.progress_bar);
             convertView.setTag(holder);
+
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
