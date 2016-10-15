@@ -3,31 +3,35 @@ package ar.edu.unc.famaf.redditreader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
-import java.util.prefs.BackingStoreException;
 
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 
 /**
  * Created by smarro on 9/29/16.
+ */
+
+/*
+ * Full disclosure: Se utilizó como ayuda las filminas vistas en clase y el siguiente tutorial
+ * para solucionar las concurrencias.
+ * http://android-developers.blogspot.com.ar/2010/07/multithreading-for-performance.html
  */
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> mListPostModel;
@@ -40,26 +44,27 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         TextView author;
         ImageView imagen;
         ProgressBar progress;
-        int position;
     }
 
     private class DownloadImageAsyncTask extends AsyncTask<URL, Integer, Bitmap> {
 
-        private Context mContext;
         private ImageView mImageView;
         private ProgressBar mProgressBar;
+        private String mUrl;
+        private final WeakReference<ImageView> imageViewReference;
 
-        public DownloadImageAsyncTask(Context context, ImageView rootView, ProgressBar progressBar) {
-            this.mContext = context;
-            this.mImageView = rootView;
+        public DownloadImageAsyncTask(ImageView imageView, ProgressBar progressBar) {
+            this.mImageView = imageView;
             this.mProgressBar = progressBar;
             mProgressBar.setVisibility(View.VISIBLE);
             mImageView.setVisibility(View.GONE);
+            imageViewReference = new WeakReference<ImageView>(imageView);
         }
         @Override
         protected Bitmap doInBackground(URL... urls) {
 
             URL url = urls[0];
+            mUrl = url.toString();
             Bitmap bitmap = null;
             HttpURLConnection connection = null;
             try {
@@ -75,13 +80,24 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         @Override
         protected void onPostExecute(Bitmap result) {
             System.out.println("onPostExecute");
+
             mProgressBar.setVisibility(View.GONE);
-            mImageView.setVisibility(View.VISIBLE);
-            mImageView.setImageBitmap(result);
+
+            if (isCancelled()) {
+                result = null;
+            }
+
+            if (imageViewReference != null) {
+                ImageView imageView = imageViewReference.get();
+                DownloadImageAsyncTask bitmapDownloaderTask = getBitmapDownloaderTask(imageView);
+                // Change bitmap only if this process is still associated with it
+                if (this == bitmapDownloaderTask) {
+                    imageView.setImageBitmap(result);
+                    mImageView.setVisibility(View.VISIBLE);
+                }
+            }
         }
     }
-
-
 
     public PostAdapter(Context context, int resource, List<PostModel> lst) {
         super(context, resource);
@@ -141,9 +157,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        DownloadImageAsyncTask dwnAsyncTask = new DownloadImageAsyncTask(getContext(), holder.imagen, holder.progress);
-        dwnAsyncTask.execute(urlArray);
+        download(urlArray, holder.imagen, holder.progress);
 
         return convertView;
     }
@@ -152,4 +166,53 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
     public boolean isEmpty() {
         return mListPostModel.isEmpty();
     }
+
+    // Metodos encargado de descargar bitmap y manejar concurrencias.
+    public void download(URL[] url, ImageView imageView, ProgressBar progressBar) {
+        if (cancelPotentialDownload(url[0].toString(), imageView)) {
+            PostAdapter.DownloadImageAsyncTask task = new PostAdapter.DownloadImageAsyncTask(imageView, progressBar);
+            DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);
+            imageView.setImageDrawable(downloadedDrawable);
+            task.execute(url);
+        }
+    }
+    private static boolean cancelPotentialDownload(String url, ImageView imageView) {
+        DownloadImageAsyncTask bitmapDownloaderTask = getBitmapDownloaderTask(imageView);
+
+        if (bitmapDownloaderTask != null) {
+            String bitmapUrl = bitmapDownloaderTask.mUrl;
+            if ((bitmapUrl == null) || (!bitmapUrl.equals(url))) {
+                bitmapDownloaderTask.cancel(true);
+            } else {
+                // The same URL is already being downloaded.
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static DownloadImageAsyncTask getBitmapDownloaderTask(ImageView imageView) {
+        if (imageView != null) {
+            Drawable drawable = imageView.getDrawable();
+            if (drawable instanceof DownloadedDrawable) {
+                DownloadedDrawable downloadedDrawable = (DownloadedDrawable)drawable;
+                return downloadedDrawable.getBitmapDownloaderTask();
+            }
+        }
+        return null;
+    }
+
+    static class DownloadedDrawable extends ColorDrawable {
+        private final WeakReference<DownloadImageAsyncTask> bitmapDownloaderTaskReference;
+
+        public DownloadedDrawable(DownloadImageAsyncTask bitmapDownloaderTask) {
+            super(Color.BLACK);
+            bitmapDownloaderTaskReference = new WeakReference<DownloadImageAsyncTask>(bitmapDownloaderTask);
+        }
+
+        public DownloadImageAsyncTask getBitmapDownloaderTask() {
+            return bitmapDownloaderTaskReference.get();
+        }
+    }
+
 }
