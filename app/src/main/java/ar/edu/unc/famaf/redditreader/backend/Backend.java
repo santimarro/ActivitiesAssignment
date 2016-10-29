@@ -1,72 +1,72 @@
 package ar.edu.unc.famaf.redditreader.backend;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
+import android.widget.Adapter;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.PostAdapter;
-import ar.edu.unc.famaf.redditreader.R;
+import ar.edu.unc.famaf.redditreader.model.Listing;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 public class Backend {
     private static Backend ourInstance = new Backend();
-    private final String URL_TEMPLATE = "http://www.reddit.com/r/" +".json" + "?after=AFTER";
 
     public static Backend getInstance() {
         return ourInstance;
     }
-
     private List<PostModel> mListPostModel;
+    private Listing mListing;
+    private PostAdapter mAdapter = null;
+
     private Backend() {
+        mListing = new Listing(null);
         mListPostModel = new ArrayList<>();
     }
 
-    private class GetTopPostsTask extends AsyncTask<URL, Integer, List<PostModel>> {
+    private class GetTopPostsTask extends AsyncTask<URL, Integer, Listing> {
 
         public GetTopPostsTask() {
-        
+
         }
         @Override
-        protected List<PostModel> doInBackground(URL... urls) {
-            List<PostModel> list = new ArrayList<>();
-            URL url = urls[0];
+        protected Listing doInBackground(URL... urls) {
+            Listing lst_tmp = new Listing(null, null, null);
             HttpURLConnection connection;
             try {
-                connection = (HttpURLConnection) url.openConnection();
+                connection = (HttpURLConnection) new URL("http://www.reddit.com/top/.json").openConnection();
+                connection.setRequestMethod("GET");
                 InputStream is = connection.getInputStream();
-                String data = is.toString();
-                list = parser(data);
+
+                Listing lst = new Parser().readJsonStream(is);
+                mListPostModel.addAll(lst.getmList());
+                mAdapter.notifyDataSetChanged();
+                return lst;
 
             } catch (IOException e) {
                 e.printStackTrace();
+                return lst_tmp;
             }
-            return list;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            System.out.println("onPostExecute");
-
-            if (isCancelled()) {
-                result = null;
-            }
-
         }
     }
 
-    public List<PostModel> getTopPosts() {
+    public List<PostModel> getList () {
         return mListPostModel;
     }
 
+    public void setAdapter (PostAdapter adapter) {
+        mAdapter = adapter;
+    }
+    public void getTopPosts() {
+
+        GetTopPostsTask task = new GetTopPostsTask();
+        URL[] url = null;
+        task.execute(url);
+        // return mListPostModel;
+    }
 }

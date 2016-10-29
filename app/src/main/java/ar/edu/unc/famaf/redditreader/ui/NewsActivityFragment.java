@@ -28,10 +28,13 @@ public class NewsActivityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
-        List<PostModel> lst = Backend.getInstance().getTopPosts();
+        List<PostModel> lst = Backend.getInstance().getList();
         ListView lv = (ListView) rootView.findViewById(R.id.postLV);
         PostAdapter adapter = new PostAdapter(getContext(), R.layout.post_row, lst);
         lv.setAdapter(adapter);
+
+        Backend.getInstance().setAdapter(adapter);
+        Backend.getInstance().getTopPosts();
 
         return rootView;
     }
