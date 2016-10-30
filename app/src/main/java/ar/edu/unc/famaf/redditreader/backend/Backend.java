@@ -6,6 +6,7 @@ import android.widget.Adapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,6 @@ public class Backend {
     }
     private List<PostModel> mListPostModel;
     private Listing mListing;
-    private PostAdapter mAdapter = null;
 
     private Backend() {
         mListing = new Listing(null);
@@ -35,23 +35,22 @@ public class Backend {
 
         }
         @Override
-        protected Listing doInBackground(URL... urls) {
-            Listing lst_tmp = new Listing(null, null, null);
+        protected Listing doInBackground(URL... params) {
+            Listing lst= null;
             HttpURLConnection connection;
             try {
-                connection = (HttpURLConnection) new URL("http://www.reddit.com/top/.json").openConnection();
+
+                connection = (HttpURLConnection) params[0].openConnection();
                 connection.setRequestMethod("GET");
                 InputStream is = connection.getInputStream();
 
-                Listing lst = new Parser().readJsonStream(is);
+                lst = new Parser().readJsonStream(is);
                 mListPostModel.addAll(lst.getmList());
-                mAdapter.notifyDataSetChanged();
-                return lst;
 
             } catch (IOException e) {
                 e.printStackTrace();
-                return lst_tmp;
             }
+            return lst;
         }
     }
 
@@ -59,14 +58,20 @@ public class Backend {
         return mListPostModel;
     }
 
-    public void setAdapter (PostAdapter adapter) {
-        mAdapter = adapter;
-    }
-    public void getTopPosts() {
+    public void getTopPosts(final GetTopPostsListener listener) {
+        URL url = null;
+        try {
+            url = new URL("https://www.reddit.com/.json?");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
-        GetTopPostsTask task = new GetTopPostsTask();
-        URL[] url = null;
-        task.execute(url);
+        new GetTopPostsTask() {
+            @Override
+            protected void onPostExecute(Listing listing) {
+                listener.getPosts(listing.getmList());
+            }
+        }.execute(url);
         // return mListPostModel;
     }
 }

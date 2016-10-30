@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 /*
  * Full disclosure: Se utilizó como ayuda las filminas vistas en clase y el siguiente tutorial
  * para solucionar las concurrencias.
- * http://android-developers.blogspot.com.ar/2010/07/multithreading-for-performance.html
+ * http://android-devgit checkoelopers.blogspot.com.ar/2010/07/multithreading-for-performance.html
  */
 public class PostAdapter extends ArrayAdapter<PostModel> {
     private List<PostModel> mListPostModel;
@@ -169,6 +170,15 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
 
     // Metodos encargado de descargar bitmap y manejar concurrencias.
     public void download(URL[] url, ImageView imageView, ProgressBar progressBar) {
+        if(url[0] == null) {
+            try {
+                // Some posts doesnt have a thumbnail. For now they will have all the same, a reddit logo
+                url[0] = new URL("http://www.jeremiahboehner.com/wp-content/uploads/Reddit.jpg");
+            } catch (MalformedURLException e) {
+            e.printStackTrace();
+            }
+        }
+
         if (cancelPotentialDownload(url[0].toString(), imageView)) {
             PostAdapter.DownloadImageAsyncTask task = new PostAdapter.DownloadImageAsyncTask(imageView, progressBar);
             DownloadedDrawable downloadedDrawable = new DownloadedDrawable(task);

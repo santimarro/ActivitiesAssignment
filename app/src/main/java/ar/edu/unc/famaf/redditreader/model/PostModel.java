@@ -1,9 +1,8 @@
 package ar.edu.unc.famaf.redditreader.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import java.net.URL;
-
-import static android.R.attr.thumbnail;
 
 /**
  * Created by smarro on 9/29/16.
@@ -18,13 +17,22 @@ public class PostModel {
     private String mImage;
 
 
-    public PostModel(String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage) {
+    public PostModel(String mTitle, String mAuthor, String mSubreddit, int mComments, Long mPostDate, String mImage) {
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
         this.mSubreddit = mSubreddit;
         this.mComments = mComments;
-        this.mPostDate = mPostDate;
         this.mImage = mImage;
+
+        Date date = new Date(mPostDate);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        String dateString = formatter.format(date);
+
+        formatter = new SimpleDateFormat("hh:mm a");
+        this.mPostDate = formatter.format(date);
+
+// prints "moments ago"
     }
 
     public String getmTitle() {
@@ -45,6 +53,8 @@ public class PostModel {
     }
 
     public String getmPostDate() {
+
+
         return mPostDate;
     }
 
