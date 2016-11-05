@@ -1,6 +1,8 @@
-package ar.edu.unc.famaf.redditreader;
+package ar.edu.unc.famaf.redditreader.model;
 
-import android.media.Image;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 /**
  * Created by smarro on 9/29/16.
@@ -8,18 +10,23 @@ import android.media.Image;
 public class PostModel {
 
     private String mTitle;
-    private String mContent;
+    private String mAuthor;
     private String mSubreddit;
     private int mComments;
     private String mPostDate;
+    private String mImage;
+    private String mId;
 
-    public PostModel(String mTitle, String mContent, String mSubreddit, int mComments, String mPostDate, String mImage) {
+
+    public PostModel(String mId, String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage) {
+        this.mId = mId;
         this.mTitle = mTitle;
-        this.mContent = mContent;
+        this.mAuthor = mAuthor;
         this.mSubreddit = mSubreddit;
         this.mComments = mComments;
-        this.mPostDate = mPostDate;
         this.mImage = mImage;
+
+// prints "moments ago"
     }
 
     public String getmTitle() {
@@ -30,7 +37,14 @@ public class PostModel {
         this.mTitle = mTitle;
     }
 
-    private String mImage;
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String mId) {
+        this.mId = mId;
+    }
+
 
     public String getmImage() {
         return mImage;
@@ -41,6 +55,8 @@ public class PostModel {
     }
 
     public String getmPostDate() {
+
+
         return mPostDate;
     }
 
@@ -64,11 +80,12 @@ public class PostModel {
         this.mSubreddit = mSubreddit;
     }
 
-    public String getmContent() {
-        return mContent;
+    public String getmAuthor() {
+        return mAuthor;
     }
 
-    public void setmContent(String mContent) {
-        this.mContent = mContent;
+    public void setmAuthor(String mAuthor) {
+        this.mAuthor = mAuthor;
     }
 }
+
