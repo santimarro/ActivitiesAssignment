@@ -43,38 +43,46 @@ public class RedditDB {
             values.put(POST_TABLE_THUMBNAIL, thumbnail);
             values.put(POST_TABLE_SUBREDDIT, subreddit);
             values.put(POST_TABLE_POSTDATE, postDate);
-            values.put(POST_TABLE_TITLE, title);
+            values.put(POST_TABLE_ID, id);
 
             long insertId = db.insert(POST_TABLE, null, values);
         }
     }
 
     public static void dropPosts(SQLiteDatabase db) {
-
+        db.execSQL("delete from "+ POST_TABLE);
     }
 
     public static List<PostModel> getDBPosts(SQLiteDatabase db) {
-        String[] projection = {
-                POST_TABLE_ID,
-                POST_TABLE_TITLE,
-                POST_TABLE_AUTHOR,
-                POST_TABLE_COMMENTS,
-                POST_TABLE_SUBREDDIT,
-                POST_TABLE_THUMBNAIL,
-                POST_TABLE_POSTDATE
-        };
 
-        Cursor c = db.query(
-                POST_TABLE,
-                projection,
-                null,
-                null,
-                null,
-                null,
-                null
-        );
+        String queryString = "SELECT * FROM " + POST_TABLE;
 
+        Cursor c = db.rawQuery(queryString, null);
+        int count = c.getCount();
+        c.moveToFirst();
+        String title = null;
+        String author = null;
+        String subreddit = null;
+        int comments = 0;
+        String postdate = null;
+        String thumbnail = null;
+        String id = null;
 
+        List<PostModel> plist = null;
+        while (c.isAfterLast()) {
+            title = c.getString(0);
+            author = c.getString(1);
+            subreddit = c.getString(2);
+            comments = c.getInt(3);
+            postdate = c.getString(4);
+            thumbnail = c.getString(5);
+            id = c.getString(6);
+
+            PostModel p = new PostModel(id, title, author, subreddit, comments, postdate ,thumbnail);
+            plist.add(p);
+            c.moveToNext();
+        }
+        return plist;
     }
 
 

@@ -65,7 +65,7 @@ public class Backend {
     public void getTopPosts(final GetTopPostsListener listener, boolean Internet, final Context context) {
         URL url = null;
         try {
-            url = new URL("https://www.reddit.com/top/.json?");
+            url = new URL("https://www.reddit.com/top/.json?limit=50");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -75,16 +75,17 @@ public class Backend {
                 @Override
                 protected void onPostExecute(Listing listing) {
                     SQLiteDatabase db = mDBHelper.getWritableDatabase();
+                    SQLiteDatabase dbRead = mDBHelper.getReadableDatabase();
+                    // First we drop all the stored posts
+                    RedditDB.dropPosts(db);
+                    // Then we store the new ones
                     RedditDB.insert(db, listing);
+                    listener.getPosts(RedditDB.getDBPosts(dbRead));
                 }
             }.execute(url);
-
         }
 
-        SQLiteDatabase dbRead = mDBHelper.getReadableDatabase();
-        listener.getPosts(RedditDB.getDBPosts(dbRead));
+        // Show the last 50 posts already stored.
 
-            // Show the last 50 posts already stored.
-        }
     }
 }

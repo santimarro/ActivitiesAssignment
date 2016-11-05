@@ -30,13 +30,14 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String createSentence = "create table "
                 + POST_TABLE
-                + " ( _id integer primary key autoincrement,"
+                + " ( "
                 + POST_TABLE_TITLE + " text not null,"
                 + POST_TABLE_AUTHOR + " text not null,"
                 + POST_TABLE_SUBREDDIT + " text not null,"
                 + POST_TABLE_COMMENTS + " integer not null,"
                 + POST_TABLE_POSTDATE + " text not null,"
-                + POST_TABLE_THUMBNAIL + " text not null"
+                + POST_TABLE_THUMBNAIL + " text not null,"
+                + POST_TABLE_ID + " text not null"
                 + " );";
         db.execSQL(createSentence);
 

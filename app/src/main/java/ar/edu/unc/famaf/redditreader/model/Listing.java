@@ -31,6 +31,10 @@ public class Listing {
         mList = list;
     }
 
+    public void setmList(List<PostModel> mList) {
+        this.mList = mList;
+    }
+
     public String getmBefore() {
         return mBefore;
     }

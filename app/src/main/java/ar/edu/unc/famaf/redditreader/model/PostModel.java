@@ -18,21 +18,13 @@ public class PostModel {
     private String mId;
 
 
-    public PostModel(String mId, String mTitle, String mAuthor, String mSubreddit, int mComments, Long mPostDate, String mImage) {
+    public PostModel(String mId, String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage) {
         this.mId = mId;
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
         this.mSubreddit = mSubreddit;
         this.mComments = mComments;
         this.mImage = mImage;
-
-        Date date = new Date(mPostDate);
-
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String dateString = formatter.format(date);
-
-        formatter = new SimpleDateFormat("hh:mm a");
-        this.mPostDate = formatter.format(date);
 
 // prints "moments ago"
     }

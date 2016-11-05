@@ -141,7 +141,16 @@ public class Parser {
         }
         reader.endObject();
 
-        return new PostModel(id, title, author, subreddit, num_comments, epoch ,thumbnail);
+
+        Date date = new Date(epoch);
+
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        String dateString = formatter.format(date);
+
+        formatter = new SimpleDateFormat("hh:mm a");
+        String PostDate = formatter.format(date);
+
+        return new PostModel(id, title, author, subreddit, num_comments, PostDate ,thumbnail);
     }
 
 }
