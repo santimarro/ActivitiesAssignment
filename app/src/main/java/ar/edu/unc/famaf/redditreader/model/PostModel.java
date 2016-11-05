@@ -15,9 +15,11 @@ public class PostModel {
     private int mComments;
     private String mPostDate;
     private String mImage;
+    private String mId;
 
 
-    public PostModel(String mTitle, String mAuthor, String mSubreddit, int mComments, Long mPostDate, String mImage) {
+    public PostModel(String mId, String mTitle, String mAuthor, String mSubreddit, int mComments, Long mPostDate, String mImage) {
+        this.mId = mId;
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
         this.mSubreddit = mSubreddit;
@@ -41,6 +43,14 @@ public class PostModel {
 
     public void setmTitle(String mTitle) {
         this.mTitle = mTitle;
+    }
+
+    public String getmId() {
+        return mId;
+    }
+
+    public void setmId(String mId) {
+        this.mId = mId;
     }
 
 

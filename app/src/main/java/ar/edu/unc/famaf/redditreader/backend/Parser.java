@@ -107,6 +107,7 @@ public class Parser {
         String thumbnail = null;
         int num_comments = 0;
         long epoch = 0;
+        String id = null;
 
         reader.beginObject();
         while (reader.hasNext()) {
@@ -130,6 +131,9 @@ public class Parser {
                 case "created":
                     epoch = reader.nextLong() * 1000;
                     break;
+                case "id":
+                    id = reader.nextString();
+                    break;
                 default:
                     reader.skipValue();
                     break;
@@ -137,7 +141,7 @@ public class Parser {
         }
         reader.endObject();
 
-        return new PostModel(title, author, subreddit, num_comments, epoch ,thumbnail);
+        return new PostModel(id, title, author, subreddit, num_comments, epoch ,thumbnail);
     }
 
 }
