@@ -17,6 +17,8 @@ import java.util.List;
 import ar.edu.unc.famaf.redditreader.PostAdapter;
 import ar.edu.unc.famaf.redditreader.model.Listing;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
+
+import static android.R.id.empty;
 import static ar.edu.unc.famaf.redditreader.backend.RedditDBHelper.DATABASE_VERSION;
 
 public class Backend {
@@ -69,23 +71,29 @@ public class Backend {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        final RedditDBHelper mDBHelper = new RedditDBHelper(context, DATABASE_VERSION);
+        RedditDBHelper mDBHelper = new RedditDBHelper(context, DATABASE_VERSION);
+        final RedditDB db = new RedditDB(context);
         if (Internet) {
             new GetTopPostsTask() {
                 @Override
-                protected void onPostExecute(Listing listing) {
-                    SQLiteDatabase db = mDBHelper.getWritableDatabase();
-                    SQLiteDatabase dbRead = mDBHelper.getReadableDatabase();
+                protected void onPostExecute(Listing listing) {;
                     // First we drop all the stored posts
-                    RedditDB.dropPosts(db);
+                    db.dropPosts();
                     // Then we store the new ones
-                    RedditDB.insert(db, listing);
-                    listener.getPosts(RedditDB.getDBPosts(dbRead));
+                    db.insert(listing);
+                    listener.getPosts(db.getDBPosts());
                 }
             }.execute(url);
+        } else {
+            boolean empty = db.isEmpty();
+            if(!empty) {
+                // Show the last 50 posts already stored.
+                listener.getPosts(db.getDBPosts());
+            } else {
+                // ERROR
+            }
         }
 
-        // Show the last 50 posts already stored.
 
     }
 }

@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +24,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import ar.edu.unc.famaf.redditreader.backend.RedditDB;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
+
+import static android.R.attr.bitmap;
+import static android.R.attr.thumb;
+import static ar.edu.unc.famaf.redditreader.backend.RedditDBHelper.*;
 
 
 /**
@@ -96,6 +103,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
                     imageView.setImageBitmap(result);
                     mImageView.setVisibility(View.VISIBLE);
                 }
+                new RedditDB(getContext()).insertImage(mUrl, result);
             }
         }
     }
@@ -152,14 +160,33 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         holder.date.setText(p.getmPostDate());
         holder.author.setText(p.getmAuthor());
 
-        URL[] urlArray = new URL[1];
-        try {
-            urlArray[0] = new URL(p.getmImage());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        download(urlArray, holder.imagen, holder.progress);
 
+        String thumbnail = p.getmImage();
+        if(thumbnail != null) {
+            RedditDB db = new RedditDB(getContext());
+            Bitmap bitmap = db.getImage(thumbnail);
+            URL[] urlArray = new URL[1];
+            try {
+                urlArray[0] = new URL(thumbnail);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (bitmap == null) {
+                if(urlArray[0] != null && isOnline())
+                    download(urlArray, holder.imagen, holder.progress);
+                else {
+                    holder.progress.setVisibility(View.GONE);
+                    holder.imagen.setImageResource(R.mipmap.ic_launcher);
+                    holder.imagen.setVisibility(View.VISIBLE);
+                }
+
+            } else {
+                holder.progress.setVisibility(View.GONE);
+                holder.imagen.setImageBitmap(bitmap);
+                holder.imagen.setVisibility(View.VISIBLE);
+            }
+        }
         return convertView;
     }
 
@@ -168,16 +195,9 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         return mListPostModel.isEmpty();
     }
 
+
     // Metodos encargado de descargar bitmap y manejar concurrencias.
     public void download(URL[] url, ImageView imageView, ProgressBar progressBar) {
-        if(url[0] == null) {
-            try {
-                // Some posts doesnt have a thumbnail. For now they will have all the same, a reddit logo
-                url[0] = new URL("http://www.jeremiahboehner.com/wp-content/uploads/Reddit.jpg");
-            } catch (MalformedURLException e) {
-            e.printStackTrace();
-            }
-        }
 
         if (cancelPotentialDownload(url[0].toString(), imageView)) {
             PostAdapter.DownloadImageAsyncTask task = new PostAdapter.DownloadImageAsyncTask(imageView, progressBar);
@@ -223,6 +243,12 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         public DownloadImageAsyncTask getBitmapDownloaderTask() {
             return bitmapDownloaderTaskReference.get();
         }
+    }
+
+    private boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
 }

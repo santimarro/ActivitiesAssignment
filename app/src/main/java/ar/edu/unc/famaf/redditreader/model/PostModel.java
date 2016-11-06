@@ -25,6 +25,7 @@ public class PostModel {
         this.mSubreddit = mSubreddit;
         this.mComments = mComments;
         this.mImage = mImage;
+        this.mPostDate = mPostDate;
 
 // prints "moments ago"
     }
