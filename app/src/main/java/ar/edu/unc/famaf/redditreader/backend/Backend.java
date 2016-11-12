@@ -29,6 +29,7 @@ public class Backend {
     }
     private List<PostModel> mListPostModel;
     private Listing mListing;
+    private int currentPost = -1;
 
     private Backend() {
         mListing = new Listing(null);
@@ -64,15 +65,15 @@ public class Backend {
         return mListPostModel;
     }
 
-    public void getTopPosts(final GetTopPostsListener listener, boolean Internet, final Context context) {
+    public void getTopPosts(final PostsIteratorListener listener, boolean Internet, final Context context) {
         URL url = null;
         try {
             url = new URL("https://www.reddit.com/top/.json?limit=50");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        RedditDBHelper mDBHelper = new RedditDBHelper(context, DATABASE_VERSION);
         final RedditDB db = new RedditDB(context);
+        final boolean setAdapter = true;
         if (Internet) {
             new GetTopPostsTask() {
                 @Override
@@ -81,19 +82,37 @@ public class Backend {
                     db.dropPosts();
                     // Then we store the new ones
                     db.insert(listing);
-                    listener.getPosts(db.getDBPosts());
+                    listener.setAdapter(db.getDBPosts(0, 5));
+                    currentPost = 5;
                 }
             }.execute(url);
         } else {
             boolean empty = db.isEmpty();
             if(!empty) {
                 // Show the last 50 posts already stored.
-                listener.getPosts(db.getDBPosts());
+                listener.setAdapter(db.getDBPosts(0, 5));
+                currentPost = 5;
             } else {
                 // ERROR
             }
         }
 
 
+    }
+
+    public void getNextPosts(final PostsIteratorListener Ilistener, boolean Internet, final Context context) {
+        if (this.currentPost == -1) {
+            getTopPosts(Ilistener, Internet, context);
+        } else {
+            final RedditDB db = new RedditDB(context);
+            Ilistener.nextPosts(db.getDBPosts(currentPost, 5));
+            currentPost += 5;
+            /*if(currentPost != 50) {
+                currentPost = (currentPost + 5) % 50;
+            } else {
+                currentPost = -1;
+            }*/
+
+        }
     }
 }

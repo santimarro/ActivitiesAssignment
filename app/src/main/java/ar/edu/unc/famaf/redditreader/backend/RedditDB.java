@@ -87,9 +87,9 @@ public class RedditDB {
         writableDB.execSQL("delete from "+ POST_TABLE);
     }
 
-    public List<PostModel> getDBPosts() {
+    public List<PostModel> getDBPosts(int first, int last) {
 
-        String queryString = "SELECT * FROM " + POST_TABLE;
+        String queryString = "SELECT * FROM " + POST_TABLE + " LIMIT " + Integer.toString(first) + ", " + Integer.toString(last) + ";";
 
         Cursor c = readableDB.rawQuery(queryString, null);
         int count = c.getCount();

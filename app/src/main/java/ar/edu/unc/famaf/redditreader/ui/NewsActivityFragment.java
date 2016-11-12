@@ -16,7 +16,9 @@ import java.util.List;
 import ar.edu.unc.famaf.redditreader.PostAdapter;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
+import ar.edu.unc.famaf.redditreader.backend.EndlessScrollListener;
 import ar.edu.unc.famaf.redditreader.backend.GetTopPostsListener;
+import ar.edu.unc.famaf.redditreader.backend.PostsIteratorListener;
 import ar.edu.unc.famaf.redditreader.model.Listing;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
@@ -26,9 +28,10 @@ import static java.security.AccessController.getContext;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class NewsActivityFragment extends Fragment implements GetTopPostsListener {
-
+public class NewsActivityFragment extends Fragment implements PostsIteratorListener {
+    List<PostModel> postsList = null;
     ListView lv = null;
+    PostAdapter adapter = null;
     public NewsActivityFragment() {
     }
 
@@ -36,20 +39,28 @@ public class NewsActivityFragment extends Fragment implements GetTopPostsListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
-        Backend backend = Backend.getInstance();
         lv = (ListView) rootView.findViewById(R.id.postLV);
-        if(isOnline()) {
-            backend.getTopPosts(this, true, getContext());
-        }
-        else {
-            backend.getTopPosts(this, false, getContext());
-        }
+        Backend.getInstance().getNextPosts(this, isOnline(), getContext());
+        lv.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public boolean onLoadMore(int page, int totalItemsCount) {
+
+                Backend.getInstance().getNextPosts(NewsActivityFragment.this, isOnline(), getContext());
+                return true;
+            }
+        });
         return rootView;
     }
 
-    public void getPosts(List<PostModel> postModelLst) {
-        PostAdapter adapter = new PostAdapter(getContext(), R.layout.post_row, postModelLst);
+    public void setAdapter(List<PostModel> postList) {
+        postsList = postList;
+        adapter = new PostAdapter(getContext(), R.layout.post_row, postsList);
         lv.setAdapter(adapter);
+    }
+
+    public void nextPosts(List<PostModel> postModelLst) {
+        postsList.addAll(postModelLst);
+        adapter.notifyDataSetChanged();
     }
 
     private boolean isOnline() {
