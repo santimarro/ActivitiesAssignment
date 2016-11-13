@@ -82,7 +82,7 @@ public class Backend {
                     db.dropPosts();
                     // Then we store the new ones
                     db.insert(listing);
-                    listener.setAdapter(db.getDBPosts(0, 5));
+                    listener.setAdapter(db.getDBPosts(0));
                     currentPost = 5;
                 }
             }.execute(url);
@@ -90,7 +90,7 @@ public class Backend {
             boolean empty = db.isEmpty();
             if(!empty) {
                 // Show the last 50 posts already stored.
-                listener.setAdapter(db.getDBPosts(0, 5));
+                listener.setAdapter(db.getDBPosts(0));
                 currentPost = 5;
             } else {
                 // ERROR
@@ -105,13 +105,8 @@ public class Backend {
             getTopPosts(Ilistener, Internet, context);
         } else {
             final RedditDB db = new RedditDB(context);
-            Ilistener.nextPosts(db.getDBPosts(currentPost, 5));
+            Ilistener.nextPosts(db.getDBPosts(currentPost));
             currentPost += 5;
-            /*if(currentPost != 50) {
-                currentPost = (currentPost + 5) % 50;
-            } else {
-                currentPost = -1;
-            }*/
 
         }
     }
