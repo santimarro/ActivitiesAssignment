@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
@@ -47,6 +48,12 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
 
                 Backend.getInstance().getNextPosts(NewsActivityFragment.this, isOnline(), getContext());
                 return true;
+            }
+        });
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
             }
         });
         return rootView;
