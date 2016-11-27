@@ -43,7 +43,7 @@ public class NewsDetailActivityFragment extends Fragment {
         TextView title = (TextView) rootView.findViewById(R.id.detail_title);
         title.setText(post.getmTitle());
         TextView subreddit = (TextView) rootView.findViewById(R.id.detail_subreddit);
-        subreddit.setText(post.getmSubreddit());
+        subreddit.setText("r/" + post.getmSubreddit());
         TextView author = (TextView) rootView.findViewById(R.id.detail_author);
         author.setText(post.getmAuthor());
         TextView date = (TextView) rootView.findViewById(R.id.detail_date);

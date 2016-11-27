@@ -150,7 +150,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         PostModel p = mListPostModel.get(position);
 
         holder.titulo.setText(p.getmTitle());
-        holder.subreddit.setText(p.getmSubreddit());
+        holder.subreddit.setText("r/" + p.getmSubreddit());
         holder.comments.setText(String.valueOf(p.getmComments()));
         holder.date.setText(p.getmPostDate());
         holder.author.setText(p.getmAuthor());
