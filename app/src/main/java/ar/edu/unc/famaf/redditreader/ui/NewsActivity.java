@@ -17,7 +17,7 @@ import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 
 public class NewsActivity extends AppCompatActivity {
-
+    String POST_DETAIL = "post_detail";
     static final int LOGGIN_KEY = 1;  // The request code
 
     @Override
@@ -52,7 +52,7 @@ public class NewsActivity extends AppCompatActivity {
 
     void onPostItemPicked(PostModel post) {
         Intent intent = new Intent(this, NewsDetailActivity.class);
-        intent.putExtra(NewsDetailActivity.POST, post);
+        intent.putExtra(POST_DETAIL, post);
         startActivity(intent);
         // Tomo el post seleccionado, lo meto al intent y arranco la nueva activity
     }
