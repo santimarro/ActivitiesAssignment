@@ -21,6 +21,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
     public static final String POST_TABLE_POSTDATE = "postdate";
     public static final String POST_TABLE_THUMBNAIL = "thumbnail";
     public static final String POST_TABLE_THUMBNAIL_B = "thumbnail_b";
+    public static final String POST_TABLE_URL = "url";
     public static final int DATABASE_VERSION = 1;
 
     public RedditDBHelper(Context context, int version) {
@@ -39,6 +40,7 @@ public class RedditDBHelper extends SQLiteOpenHelper {
                 + POST_TABLE_POSTDATE + " text not null,"
                 + POST_TABLE_THUMBNAIL + " text not null,"
                 + POST_TABLE_THUMBNAIL_B + " blob,"
+                + POST_TABLE_URL + " text not null,"
                 + POST_TABLE_ID + " text not null"
                 + " );";
         db.execSQL(createSentence);

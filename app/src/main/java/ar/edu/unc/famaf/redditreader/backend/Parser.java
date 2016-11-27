@@ -105,6 +105,7 @@ public class Parser {
         String title = null;
         String author = null;
         String thumbnail = null;
+        String url = null;
         int num_comments = 0;
         long epoch = 0;
         String id = null;
@@ -134,6 +135,9 @@ public class Parser {
                 case "id":
                     id = reader.nextString();
                     break;
+                case "url":
+                    url = reader.nextString();
+                    break;
                 default:
                     reader.skipValue();
                     break;
@@ -150,7 +154,7 @@ public class Parser {
         formatter = new SimpleDateFormat("hh:mm a");
         String PostDate = formatter.format(date);
 
-        return new PostModel(id, title, author, subreddit, num_comments, PostDate ,thumbnail);
+        return new PostModel(id, title, author, subreddit, num_comments, PostDate ,thumbnail, url);
     }
 
 }

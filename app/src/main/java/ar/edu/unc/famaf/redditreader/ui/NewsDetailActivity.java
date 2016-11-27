@@ -1,6 +1,8 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
+
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -18,8 +20,15 @@ public class NewsDetailActivity extends AppCompatActivity {
 
         Bundle args = new Bundle();
         PostModel post = (PostModel) intent.getSerializableExtra(POST_DETAIL);
-        args.putSerializable("POST_DETAIL", post);
+        args.putSerializable(POST_DETAIL, post);
 
         // Launchear el fragment.
+        NewsDetailActivityFragment newsDetailActivityFragment = new NewsDetailActivityFragment();
+        newsDetailActivityFragment.setArguments(args);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.add(R.id.detail_fragment_container, newsDetailActivityFragment);
+        transaction.commit();
+
     }
 }

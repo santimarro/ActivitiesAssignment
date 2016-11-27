@@ -51,10 +51,10 @@ public class NewsActivity extends AppCompatActivity {
     }
 
     void onPostItemPicked(PostModel post) {
+        // Guardo el post seleccionado en el intent y arranco la activity
         Intent intent = new Intent(this, NewsDetailActivity.class);
         intent.putExtra(POST_DETAIL, post);
         startActivity(intent);
-        // Tomo el post seleccionado, lo meto al intent y arranco la nueva activity
     }
 
     @Override

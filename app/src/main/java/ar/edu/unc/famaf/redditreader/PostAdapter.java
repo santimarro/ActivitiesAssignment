@@ -20,16 +20,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
 import ar.edu.unc.famaf.redditreader.backend.RedditDB;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
-
-import static android.R.attr.bitmap;
-import static android.R.attr.thumb;
-import static ar.edu.unc.famaf.redditreader.backend.RedditDBHelper.*;
 
 
 /**
@@ -61,7 +56,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         private String mUrl;
         private final WeakReference<ImageView> imageViewReference;
 
-        public DownloadImageAsyncTask(ImageView imageView, ProgressBar progressBar) {
+        public  DownloadImageAsyncTask(ImageView imageView, ProgressBar progressBar) {
             this.mImageView = imageView;
             this.mProgressBar = progressBar;
             mProgressBar.setVisibility(View.VISIBLE);
@@ -140,7 +135,7 @@ public class PostAdapter extends ArrayAdapter<PostModel> {
         if(convertView.getTag() == null) {
             holder = new ViewHolder();
             holder.titulo = (TextView) convertView.findViewById(R.id.title);
-            holder.subreddit = (TextView) convertView.findViewById(R.id.subreddit);
+            holder.subreddit = (TextView) convertView.findViewById(R.id.detail_subreddit);
             holder.comments = (TextView) convertView.findViewById(R.id.cantidad_comentarios);
             holder.date = (TextView) convertView.findViewById(R.id.horas);
             holder.author = (TextView) convertView.findViewById(R.id.autor);

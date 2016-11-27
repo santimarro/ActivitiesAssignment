@@ -56,29 +56,9 @@ public class RedditDB {
             values.put(POST_TABLE_TITLE, postModel.getmTitle());
             values.put(POST_TABLE_SUBREDDIT, postModel.getmSubreddit());
             values.put(POST_TABLE_ID, postModel.getmId());
+            values.put(POST_TABLE_URL, postModel.getmUrl());
             this.writableDB.insert(POST_TABLE, null, values);
-        /*
-        // Por cada post copio la informacion requerida y la inserto en la tabla
-        for (int i = 0; i < postList.size(); i++) {
 
-            String title = postList.get(i).getmTitle();
-            String author = postList.get(i).getmAuthor();
-            String subreddit = postList.get(i).getmSubreddit();
-            int comments = postList.get(i).getmComments();
-            String postDate = postList.get(i).getmPostDate();
-            String thumbnail = postList.get(i).getmImage();
-            String id = postList.get(i).getmId();
-
-            String sql = "INSERT INTO " + POST_TABLE + " ("+ POST_TABLE_TITLE + ", "
-                    + POST_TABLE_AUTHOR + ", "
-                    + POST_TABLE_SUBREDDIT + ", "
-                    + POST_TABLE_COMMENTS + ", "
-                    + POST_TABLE_POSTDATE + ", "
-                    + POST_TABLE_THUMBNAIL +", "
-                    + POST_TABLE_ID + ")"
-            + " VALUES ('" + title + "','" + author + "', '" + subreddit + "', '" + comments + "', '" + postDate + "', '" + thumbnail + "', '" + id + "') ";
-            writableDB.execSQL(sql);
-        */
         }
     }
 
@@ -94,13 +74,14 @@ public class RedditDB {
         Cursor c = readableDB.rawQuery(queryString, null);
         int count = c.getCount();
         c.moveToFirst();
-        String title = null;
-        String author = null;
-        String subreddit = null;
-        int comments = 0;
-        String postdate = null;
-        String thumbnail = null;
-        String id = null;
+        String title;
+        String author;
+        String subreddit;
+        int comments;
+        String postdate;
+        String thumbnail ;
+        String id;
+        String url;
 
         List<PostModel> plist = new ArrayList<>();
         if (c.moveToFirst()) {
@@ -111,9 +92,10 @@ public class RedditDB {
                 comments = c.getInt(c.getColumnIndexOrThrow(POST_TABLE_COMMENTS));
                 postdate = c.getString(c.getColumnIndexOrThrow(POST_TABLE_POSTDATE));
                 thumbnail = c.getString(c.getColumnIndexOrThrow(POST_TABLE_THUMBNAIL));
+                url = c.getString(c.getColumnIndexOrThrow(POST_TABLE_URL));
                 id = c.getString(c.getColumnIndexOrThrow(POST_TABLE_ID));
 
-                PostModel p = new PostModel(id, title, author, subreddit, comments, postdate ,thumbnail);
+                PostModel p = new PostModel(id, title, author, subreddit, comments, postdate ,thumbnail, url);
                 plist.add(p);
               } while (c.moveToNext());
         }

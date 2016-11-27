@@ -19,12 +19,9 @@ import ar.edu.unc.famaf.redditreader.PostAdapter;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.Backend;
 import ar.edu.unc.famaf.redditreader.backend.EndlessScrollListener;
-import ar.edu.unc.famaf.redditreader.backend.GetTopPostsListener;
 import ar.edu.unc.famaf.redditreader.backend.PostsIteratorListener;
-import ar.edu.unc.famaf.redditreader.model.Listing;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
-import static java.security.AccessController.getContext;
 
 
 /**
@@ -35,6 +32,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     ListView lv = null;
     PostAdapter adapter = null;
     Activity a;
+
     public NewsActivityFragment() {
     }
 
@@ -43,7 +41,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         super.onAttach(context);
 
         if (context instanceof Activity){
-            a=(Activity) context;
+            a = (Activity) context;
         }
 
     }

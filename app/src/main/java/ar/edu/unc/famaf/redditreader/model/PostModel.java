@@ -17,18 +17,23 @@ public class PostModel implements Serializable {
     private String mPostDate;
     private String mImage;
     private String mId;
+    private String mUrl;
 
 
-    public PostModel(String mId, String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage) {
+    public PostModel(String mId, String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage, String mUrl) {
         this.mId = mId;
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
-        this.mSubreddit = mSubreddit;
+        this.mSubreddit =  mSubreddit;
         this.mComments = mComments;
         this.mImage = mImage;
         this.mPostDate = mPostDate;
+        this.mUrl = mUrl;
 
-// prints "moments ago"
+    }
+
+    public String getmUrl() {
+        return mUrl;
     }
 
     public String getmTitle() {
@@ -57,8 +62,6 @@ public class PostModel implements Serializable {
     }
 
     public String getmPostDate() {
-
-
         return mPostDate;
     }
 
