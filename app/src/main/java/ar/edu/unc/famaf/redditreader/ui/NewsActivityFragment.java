@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,7 +34,18 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
     List<PostModel> postsList = null;
     ListView lv = null;
     PostAdapter adapter = null;
+    Activity a;
     public NewsActivityFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (context instanceof Activity){
+            a=(Activity) context;
+        }
+
     }
 
     @Override
@@ -53,7 +65,7 @@ public class NewsActivityFragment extends Fragment implements PostsIteratorListe
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                ((NewsActivity) a).onPostItemPicked(postsList.get(i));
             }
         });
         return rootView;

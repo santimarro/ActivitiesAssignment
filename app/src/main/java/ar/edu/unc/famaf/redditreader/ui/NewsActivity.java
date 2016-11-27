@@ -10,7 +10,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.List;
+
 import ar.edu.unc.famaf.redditreader.R;
+import ar.edu.unc.famaf.redditreader.model.PostModel;
 
 
 public class NewsActivity extends AppCompatActivity {
@@ -45,6 +48,13 @@ public class NewsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    void onPostItemPicked(PostModel post) {
+        Intent intent = new Intent(this, NewsDetailActivity.class);
+        intent.putExtra(NewsDetailActivity.POST, post);
+        startActivity(intent);
+        // Tomo el post seleccionado, lo meto al intent y arranco la nueva activity
     }
 
     @Override

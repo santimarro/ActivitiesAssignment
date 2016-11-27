@@ -1,5 +1,6 @@
 package ar.edu.unc.famaf.redditreader.model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
 /**
  * Created by smarro on 9/29/16.
  */
-public class PostModel {
+public class PostModel implements Serializable {
 
     private String mTitle;
     private String mAuthor;
