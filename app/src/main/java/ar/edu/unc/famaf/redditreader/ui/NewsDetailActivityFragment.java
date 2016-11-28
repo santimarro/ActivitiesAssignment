@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,21 +17,70 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import ar.edu.unc.famaf.redditreader.PostAdapter;
 import ar.edu.unc.famaf.redditreader.R;
 import ar.edu.unc.famaf.redditreader.backend.RedditDB;
 import ar.edu.unc.famaf.redditreader.model.PostModel;
 
+import static android.R.attr.bitmap;
+
 public class NewsDetailActivityFragment extends Fragment {
     String POST_DETAIL = "post_detail";
     public static final String URL = "url";
+    private ImageView preview;
+
     public NewsDetailActivityFragment() {
+    }
+
+    private class DownloadImageAsyncTask extends AsyncTask<URL, Integer, Bitmap> {
+
+        private ImageView mImageView;
+        private String mUrl;
+        private final WeakReference<ImageView> imageViewReference;
+
+        public  DownloadImageAsyncTask(ImageView imageView) {
+            this.mImageView = imageView;
+            mImageView.setVisibility(View.GONE);
+            imageViewReference = new WeakReference<ImageView>(imageView);
+        }
+        @Override
+        protected Bitmap doInBackground(URL... urls) {
+
+            URL url = urls[0];
+            mUrl = url.toString();
+            Bitmap bitmap = null;
+            HttpURLConnection connection = null;
+            try {
+                connection = (HttpURLConnection) url.openConnection();
+                InputStream is = connection.getInputStream();
+                bitmap = BitmapFactory.decodeStream(is, null, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            System.out.println("onPostExecute");
+            if (isCancelled()) {
+                result = null;
+            }
+            if(result != null) {
+                preview.setImageBitmap(result);
+                preview.setVisibility(View.VISIBLE);
+            }
+
+        }
     }
 
     @Override
@@ -50,32 +100,37 @@ public class NewsDetailActivityFragment extends Fragment {
         date.setText(post.getmPostDate());
 
         // Seteamos la preview
-        ImageView preview = (ImageView) rootView.findViewById(R.id.detail_preview);
-        String thumbnail = post.getmImage();
+        String postHint = post.getmPostHint();
+        String thumbnail;
+        preview = (ImageView) rootView.findViewById(R.id.detail_preview);
         URL[] urlArray = new URL[1];
+        boolean preview_needed = false;
+
+        if(postHint.equals("image")) {
+            thumbnail = post.getmUrl();
+        } else {
+            thumbnail = post.getmImage();
+            preview_needed = true;
+        }
+
+        try {
+            urlArray[0] = new URL(thumbnail);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         if(thumbnail != null) {
-            RedditDB db = new RedditDB(getContext());
-            Bitmap bitmap = db.getImage(thumbnail);
-            try {
-                urlArray[0] = new URL(thumbnail);
-            } catch (IOException e) {
-                e.printStackTrace();
+            Bitmap bitmap = null;
+            if(preview_needed) {
+                RedditDB db = new RedditDB(getContext());
+                bitmap = db.getImage(thumbnail);
             }
 
             if (bitmap == null) {
                 if(urlArray[0] != null && isOnline()) {
                     URL url = urlArray[0];
-                    HttpURLConnection connection = null;
-                    try {
-                        connection = (HttpURLConnection) url.openConnection();
-                        InputStream is = connection.getInputStream();
-                        bitmap = BitmapFactory.decodeStream(is, null, null);
-                        preview.setImageBitmap(bitmap);
-                        preview.setVisibility(View.VISIBLE);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    NewsDetailActivityFragment.DownloadImageAsyncTask task = new NewsDetailActivityFragment.DownloadImageAsyncTask(preview);
+                    task.execute(url);
                 }
                 else {
                     preview.setImageResource(R.mipmap.ic_launcher);
@@ -99,6 +154,8 @@ public class NewsDetailActivityFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        if(!preview_needed)
+            button.setVisibility(View.GONE);
 
         return rootView;
 

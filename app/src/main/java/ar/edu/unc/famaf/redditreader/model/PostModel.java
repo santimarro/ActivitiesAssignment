@@ -18,9 +18,10 @@ public class PostModel implements Serializable {
     private String mImage;
     private String mId;
     private String mUrl;
+    private String mPostHint;
 
 
-    public PostModel(String mId, String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage, String mUrl) {
+    public PostModel(String mId, String mTitle, String mAuthor, String mSubreddit, int mComments, String mPostDate, String mImage, String mUrl, String mPostHint) {
         this.mId = mId;
         this.mTitle = mTitle;
         this.mAuthor = mAuthor;
@@ -29,7 +30,12 @@ public class PostModel implements Serializable {
         this.mImage = mImage;
         this.mPostDate = mPostDate;
         this.mUrl = mUrl;
+        this.mPostHint = mPostHint;
 
+    }
+
+    public String getmPostHint() {
+        return mPostHint;
     }
 
     public String getmUrl() {

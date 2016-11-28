@@ -57,6 +57,7 @@ public class RedditDB {
             values.put(POST_TABLE_SUBREDDIT, postModel.getmSubreddit());
             values.put(POST_TABLE_ID, postModel.getmId());
             values.put(POST_TABLE_URL, postModel.getmUrl());
+            values.put(POST_TABLE_HINT, postModel.getmPostHint());
             this.writableDB.insert(POST_TABLE, null, values);
 
         }
@@ -82,6 +83,7 @@ public class RedditDB {
         String thumbnail ;
         String id;
         String url;
+        String hint;
 
         List<PostModel> plist = new ArrayList<>();
         if (c.moveToFirst()) {
@@ -93,9 +95,10 @@ public class RedditDB {
                 postdate = c.getString(c.getColumnIndexOrThrow(POST_TABLE_POSTDATE));
                 thumbnail = c.getString(c.getColumnIndexOrThrow(POST_TABLE_THUMBNAIL));
                 url = c.getString(c.getColumnIndexOrThrow(POST_TABLE_URL));
+                hint = c.getString(c.getColumnIndexOrThrow(POST_TABLE_HINT));
                 id = c.getString(c.getColumnIndexOrThrow(POST_TABLE_ID));
 
-                PostModel p = new PostModel(id, title, author, subreddit, comments, postdate ,thumbnail, url);
+                PostModel p = new PostModel(id, title, author, subreddit, comments, postdate ,thumbnail, url, hint);
                 plist.add(p);
               } while (c.moveToNext());
         }
