@@ -37,7 +37,7 @@ public class RedditDB {
         readableDB = db.getReadableDatabase();
     }
 
-    public void insert(Listing listing) {
+    public void insert(Listing listing, String db_key) {
 
         List<PostModel> postList = listing.getmList();
 
@@ -58,21 +58,27 @@ public class RedditDB {
             values.put(POST_TABLE_ID, postModel.getmId());
             values.put(POST_TABLE_URL, postModel.getmUrl());
             values.put(POST_TABLE_HINT, postModel.getmPostHint());
+            values.put(POST_TABLE_KEY, db_key);
             this.writableDB.insert(POST_TABLE, null, values);
 
         }
     }
 
 
-    public void dropPosts() {
-        writableDB.execSQL("delete from "+ POST_TABLE);
+    public void dropPosts(String db_key) {
+        String whereClause = "key=?";
+        String[] whereArgs = new String[] { String.valueOf(db_key) };
+        writableDB.delete(POST_TABLE, whereClause, whereArgs);
     }
 
-    public List<PostModel> getDBPosts(int first) {
+    public List<PostModel> getDBPosts(int first, String db_key) {
 
-        String queryString = "SELECT * FROM " + POST_TABLE + " LIMIT " + Integer.toString(first) + ", 5;";
+        String whereClause = "key=?";
+        String[] whereArgs = new String[] { String.valueOf(db_key) };
 
-        Cursor c = readableDB.rawQuery(queryString, null);
+        String queryString = "SELECT * FROM " + POST_TABLE + " WHERE key=?" + " LIMIT " + Integer.toString(first) + ", 5;";
+
+        Cursor c = readableDB.rawQuery(queryString, new String[] {db_key + ""});
         int count = c.getCount();
         c.moveToFirst();
         String title;
@@ -106,10 +112,10 @@ public class RedditDB {
         return plist;
     }
 
-    public boolean isEmpty() {
+    public boolean isEmpty(String db_key) {
         boolean result = true;
-        String selection = "SELECT * FROM " + POST_TABLE;
-        Cursor c = readableDB.rawQuery(selection, null);
+        String selection = "SELECT * FROM " + POST_TABLE + " WHERE key=?";
+        Cursor c = readableDB.rawQuery(selection, new String[] {db_key + ""});
 
         if (c.moveToFirst())
             result = false;

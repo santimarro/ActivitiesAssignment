@@ -1,13 +1,17 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/news_activity_fragment_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ar.edu.unc.famaf.redditreader.ui.newNewsFragment">
+    tools:context="ar.edu.unc.famaf.redditreader.ui.newNewsFragment"
+    tools:showIn="@layout/activity_frontpage"
+    android:clickable="true"
+    android:background="#FFF">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:id="@+id/postLV">
 
-</FrameLayout>
+    </ListView>
+</RelativeLayout>
